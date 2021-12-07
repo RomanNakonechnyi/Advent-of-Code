@@ -30,17 +30,17 @@ void advancedFuelEstimation(List<int> input) {
   var minFuel = ((1 << 63) + 100).abs(); // just very big number
 
   for (var i = min; i <= max; i++) {
-    int nextFuel = input.fold(0, (previousValue, element) {
-      var distance = (element - i).abs() + 1;
-      int fuelConsumption = List.generate(distance, (index) => index)
-          .fold(0, (previousValue, element) => previousValue + element);
-      return previousValue + fuelConsumption;
-    });
+    int nextFuel = input.fold(0,
+        (previousValue, element) => previousValue + gauss((element - i).abs()));
     if (nextFuel < minFuel) {
       minFuel = nextFuel;
     }
   }
   print('moving to position  will cost $minFuel');
+}
+
+int gauss(x) {
+  return (x * (x + 1)) ~/ 2;
 }
 
 final testInput = [16, 1, 2, 0, 4, 2, 7, 1, 2, 14];
