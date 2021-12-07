@@ -25,7 +25,7 @@ void main(List<String> args) {
 List<Line> generateListOfLines() {
   List<Line> listOfLines = [];
   for (var item in input) {
-    var splitedCoords = item.split(":");
+    var splitedCoords = item.split(':');
     var startSplitted = splitedCoords[0].split(',');
     var endSplitted = splitedCoords[1].split(',');
     var startCoord = Coordinate(
@@ -50,6 +50,11 @@ class Coordinate {
   String toString() {
     return '$x:$y';
   }
+
+  bool isHorizontallyAlignedWithOther(Coordinate other) => x == other.x;
+  bool isVerticallyAlignedWithOther(Coordinate other) => y == other.y;
+  bool isDiagonallyAlignedWithOther(Coordinate other) =>
+      (x - other.x).abs() == (y - other.y).abs();
 }
 
 class Line {
@@ -63,7 +68,7 @@ class Line {
   List<Coordinate> generateLine({bool includeDiagonal = false}) {
     // ignore: omit_local_variable_types
     final List<Coordinate> line = [];
-    if (start.x == end.x) {
+    if (start.isHorizontallyAlignedWithOther(end)) {
       if (start.y < end.y) {
         for (var i = start.y; i <= end.y; i++) {
           line.add(Coordinate(start.x, i));
@@ -73,7 +78,7 @@ class Line {
           line.add(Coordinate(start.x, i));
         }
       }
-    } else if (start.y == end.y) {
+    } else if (start.isVerticallyAlignedWithOther(end)) {
       if (start.x < end.x) {
         for (var i = start.x; i <= end.x; i++) {
           line.add(Coordinate(i, start.y));
@@ -83,8 +88,7 @@ class Line {
           line.add(Coordinate(i, start.y));
         }
       }
-    } else if (includeDiagonal &&
-        ((start.x - end.x).abs() == (start.y - end.y).abs())) {
+    } else if (includeDiagonal && start.isDiagonallyAlignedWithOther(end)) {
       var diagonalLength = (start.x - end.x).abs() + 1;
       print(diagonalLength);
       print(start.toString());
