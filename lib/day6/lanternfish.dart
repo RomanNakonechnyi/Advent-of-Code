@@ -7,13 +7,13 @@ void main(List<String> args) {
   List<LanternFish> fish =
       input.map((e) => LanternFish(remainingDays: e)).toList();
 
-  runAdvancedSimulation(fish);
+  runAdvancedSimulation(input);
 }
 
-void runAdvancedSimulation(List<LanternFish> fish) {
+void runAdvancedSimulation(List<int> fish) {
   var mapOfFish = List.generate(9, (idx) => 0);
   for (var i = 0; i <= 8; i++) {
-    mapOfFish[i] = fish.where((element) => element.remainingDays == i).length;
+    mapOfFish[i] = fish.where((element) => element == i).length;
   }
 
   for (var i = 0; i < 256; i++) {
